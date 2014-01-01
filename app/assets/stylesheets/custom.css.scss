@@ -3,6 +3,11 @@
 // Variables
 $lightGray: grey;
 $grayMediumLight: #eaeaea;
+@mixin box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 
 html {
@@ -89,4 +94,12 @@ footer {
       margin-left: 0.625em;
     }
   }
+}
+
+.debug_dump {
+  clear: both;
+  border: 1px solid green;
+  background: lightgreen;
+  color: #000;
+  @include box-sizing;
 }
