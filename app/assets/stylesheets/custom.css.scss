@@ -25,6 +25,10 @@ section {
 textarea {
   resize: vertical;
 }
+ul {
+  margin: 0;
+  padding: 0;
+}
 
 .center {
   text-align: center;
@@ -38,16 +42,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 3em;
-  letter-spacing: -2px;
-  margin-bottom: 30px;
-  text-align: center;
+  font-size: 2em;
+  //letter-spacing: -2px;
+  margin-top: 0;
+  margin-bottom: 3px;
 }
 
 h2 {
   font-size: 1.2em;
   letter-spacing: -1px;
-  margin-bottom: 30px;
+  margin-bottom: 3px;
   text-align: center;
   font-weight: normal;
   color: $lightGray;
@@ -57,6 +61,12 @@ p {
   font-size: 1.1em;
   line-height: 1.7em;
 }
+
+span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
 
 #logo {
   text-transform: uppercase;
@@ -98,9 +108,9 @@ footer {
 
 #error_explanation {
   color: #f00;
+  margin-top: 1em;
   ul {
     list-style: dotted;
-    margin: 0 0 18px 0;
   }
 }
 
@@ -122,4 +132,45 @@ footer {
   background: lightgreen;
   color: #000;
   @include box-sizing;
+}
+ // Forms
+ 
+input[type="text"],
+input[type="password"],
+textarea {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2em;
+  border: 1px solid  #bbb;
+}
+.users,
+.microposts {
+  list-style: none;
+  li {
+    padding: 0.75em 0px;
+    border-top: 1px solid #ddd;
+    overflow: hidden;
+    &:last-child {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  p.content {
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+}
+.content {
+  display: block;
+  font-weight: bold;
+}
+.timestamp {
+  color: #6f6f6f;
+}
+.gravatar {
+  float: left;
+  margin-right: 0.5em;
+}
+textarea {
+    height: 100px;
+    margin: 1em 0;
 }

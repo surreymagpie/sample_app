@@ -89,10 +89,18 @@ describe "User" do
     
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:mp1) { FactoryGirl.create(:micropost, content: "foo", user: user )}
+    let!(:mp2) { FactoryGirl.create(:micropost, content: "bar", user: user )}
     before { visit user_path(user) }
 
     it { should have_content(user.name) }
     it { should have_title(user.name) }
+
+    describe "micropost block" do
+      it { should have_content(mp1.content) }
+      it { should have_content(mp2.content) }
+      it { should have_content(user.microposts.count) }
+    end
   end
 
   describe "edit page" do
@@ -144,5 +152,5 @@ describe "User" do
       patch user_path(user), params
     end
     specify { expect(user.reload).not_to be_admin }
-  end 
+  end
 end

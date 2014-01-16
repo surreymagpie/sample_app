@@ -1,25 +1,4 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
- // Forms
- 
-input[type="text"],
-input[type="password"] {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: 2em;
-  border: 1px solid  #bbb;
-}
-.users {
-    margin: 0;
-    padding: 0;
-  li {
-    padding: 0.75em 0px;
-    border-top: 1px solid #ddd;
-    list-style: none;
-    overflow: hidden;
-    &:last-child {
-      border-bottom: 1px solid #ddd;
-    }
-  }
-}
+
