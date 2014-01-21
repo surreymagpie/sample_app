@@ -34,10 +34,19 @@ describe "MicropostPages" do
     before { FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")}
     describe "as the correct user" do
       before {visit root_path}
-
       it "should delete the micropost" do
         expect { click_link "Delete" }.to change(Micropost, :count).by(-1)
       end
     end
   end
+
+  describe "pagination" do
+    before do
+      31.times { FactoryGirl.create(:micropost, user: user) }
+      visit root_path
+    end
+    it { should have_selector("div.pagination") }
+  end
+
+  
 end
