@@ -186,3 +186,40 @@ textarea {
     color: #f00;
   }
 }
+
+// Sidebar
+
+.stats {
+  a {
+    display: inline-block;
+    margin: 1em 0;
+    color: #666;
+    &:first-child {
+      padding-right: 1em;
+      border-right: 1px solid #ddd;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #2a6496;
+    }
+  }
+  strong {
+    display: block;
+  }
+}
+// Followers
+li.user {
+  list-style: none;
+  padding-bottom: 0.5em;
+  overflow: hidden;
+}
+.block {
+  display: block;
+}
+.user_avatars {
+  overflow: auto;
+  margin-top: 10px;
+  .gravatar {
+    margin: 1px 1px;
+  }
+}
