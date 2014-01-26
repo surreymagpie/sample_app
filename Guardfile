@@ -3,8 +3,7 @@
 
 require 'active_support/inflector'
 
-guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' },
-               :rspec_env    => { 'RAILS_ENV' => 'test' } do
+guard 'spork', :rspec_env    => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch('config/environments/test.rb')
@@ -50,4 +49,3 @@ guard 'rspec', all_after_pass: false, cli: '--drb' do
   watch(%r{^spec/acceptance/(.+)\.feature$})
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
 end
-

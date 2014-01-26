@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'pry'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -47,8 +48,9 @@ Spork.prefork do
     # order dependency and want to debug it, you can fix the order by providing
     # the seed, which is printed after each run.
     #     --seed 1234
-    config.order = "random"
+    #config.order = "random"
     config.include Capybara::DSL
+    config.include Rails.application.routes.url_helpers
   end
 end
 

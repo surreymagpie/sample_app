@@ -4,6 +4,7 @@ describe "MicropostPages" do
   
   subject { page } 
   let(:user) { FactoryGirl.create(:user)}
+  let(:otheruser) { FactoryGirl.create(:user) }
   before {sign_in user}
 
   describe "micropost creation" do
@@ -48,5 +49,28 @@ describe "MicropostPages" do
     it { should have_selector("div.pagination") }
   end
 
-  
+  describe "pluralisation" do
+    describe "of the first post" do
+      before do
+        FactoryGirl.create(:micropost, user: user)
+        visit root_path
+      end
+      it { should have_selector("span", text: "1 micropost") }
+    end
+    describe "of the second post" do
+      before do
+        2.times {FactoryGirl.create(:micropost, user: user)}
+        visit root_path
+      end
+      it { should have_selector("span", text: "2 microposts") }
+    end    
+  end
+
+  describe "delete links for other user don't appear" do
+    let(:theirpost) {FactoryGirl.create(:micropost, user: otheruser) }
+    before do
+      visit user_path(otheruser)
+    end
+    it { should_not have_link "Delete" }
+  end
 end

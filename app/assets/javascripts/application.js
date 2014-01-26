@@ -15,3 +15,19 @@
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
+function updateCountdown () {
+	var span = $('.counter');
+	var charsLeft = 140 - $('#micropost_content').val().length;
+	span.text(charsLeft);
+	if (charsLeft < 0) {
+		span.addClass('long')
+	}
+	else {
+		span.removeClass('long')
+	}
+}
+$(document).ready(function($) {
+    updateCountdown();
+    $('#micropost_content').change(updateCountdown);
+    $('#micropost_content').keyup(updateCountdown);
+});

@@ -63,7 +63,7 @@ p {
 }
 
 span {
-      display: block;
+      // display: block;
       margin-bottom: 3px;
       line-height: 1;
     }
@@ -173,4 +173,16 @@ textarea {
 textarea {
     height: 100px;
     margin: 1em 0;
+}
+.field {
+  position: relative;
+}
+.counter {
+  position: absolute;
+  right: 0.5em;
+  bottom: 1.2em;
+  color: #0f0;
+  &.long {
+    color: #f00;
+  }
 }
