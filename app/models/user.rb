@@ -7,6 +7,12 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
   has_secure_password
   has_many :microposts, dependent: :destroy
+  has_many :relationships, dependent: :destroy, foreign_key: "follower_id"
+  has_many :reverse_relationships,  dependent: :destroy,
+                                    foreign_key: "followed_id",
+                                    class_name: "Relationship"
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :followers, through: :reverse_relationships, source: :follower
   
   
   def User.new_remember_token
@@ -20,6 +26,18 @@ class User < ActiveRecord::Base
   def feed
     # This is preliminary. See "Following users" for the full implementation.
     Micropost.where("user_id = ?", id)
+  end
+
+  def following?(other_user)
+    relationships.find_by(followed_id: other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by(followed_id: other_user.id).destroy
   end
     
   private
