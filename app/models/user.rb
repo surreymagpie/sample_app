@@ -13,19 +13,18 @@ class User < ActiveRecord::Base
                                     class_name: "Relationship"
   has_many :followed_users, through: :relationships, source: :followed
   has_many :followers, through: :reverse_relationships, source: :follower
-  
-  
+
+
   def User.new_remember_token
     SecureRandom.urlsafe_base64
   end
-  
+
   def User.encrypt(token)
     Digest::SHA2.hexdigest(token.to_s)
   end
 
   def feed
-    # This is preliminary. See "Following users" for the full implementation.
-    Micropost.where("user_id = ?", id)
+    Micropost.from_users_followed_by(self)
   end
 
   def following?(other_user)
@@ -39,9 +38,9 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     relationships.find_by(followed_id: other_user.id).destroy
   end
-    
+
   private
-  
+
     def create_remember_token
       self.remember_token = User.encrypt(User.new_remember_token)
     end

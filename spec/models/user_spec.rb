@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
 
   before do
-    @user = User.new(name: "Example User", email: "user@example.com", 
+    @user = User.new(name: "Example User", email: "user@example.com",
                       password: "foobar", password_confirmation: "foobar")
   end
 
@@ -43,17 +43,17 @@ describe User do
     before { @user.name = " " }
     it { should_not be_valid }
   end
-  
-  describe "when name is too long" do 
+
+  describe "when name is too long" do
     before { @user.name = "a" * 51 }
     it { should_not be_valid }
   end
-   
+
   describe "when email is not present" do
     before { @user.email = ""}
     it { should_not be_valid }
   end
-  
+
   describe "when email is incorrect format" do
     it "should be invalid" do
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.
@@ -61,10 +61,10 @@ describe User do
       addresses.each do |invalid_address|
         @user.email = invalid_address
         expect(@user).not_to be_valid
-      end      
+      end
     end
   end
-    
+
   describe "when email is correct format" do
     it "should be valid" do
       addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
@@ -74,7 +74,7 @@ describe User do
       end
     end
   end
-  
+
   describe "email in mixed or upper case" do
     let(:mixed_case_email) { "Mixed@ExamPle.Com" }
     it "should be saved as lowercase" do
@@ -82,18 +82,18 @@ describe User do
       @user.save
       expect(@user.reload.email).to eq mixed_case_email.downcase
     end
-   
+
   end
-  
+
   describe "when email address is already taken" do
     before do
       user_with_same_email = @user.dup
-      user_with_same_email.email = user_with_same_email.email.upcase 
+      user_with_same_email.email = user_with_same_email.email.upcase
       user_with_same_email.save
     end
     it { should_not be_valid }
   end
-  
+
   describe "when password is not present" do
     before do
       @user = User.new(name: "Example User", email: "user@example.com",
@@ -101,34 +101,34 @@ describe User do
     end
     it { should_not be_valid }
   end
-  
+
   describe "when passwords are a mismatch" do
     before do
       @user = User.new(password_confirmation: "mismatch")
     end
     it { should_not be_valid }
   end
-  
+
   describe "when a password is too short" do
     before { @user.password = "a" * 5}
     it { should_not be_valid}
   end
-  
+
   describe "results of authentication method" do
     before {@user.save}
     let(:found_user) { User.find_by(email: @user.email) }
-    
+
     describe "with valid password" do
       it { should eq found_user.authenticate(@user.password) }
     end
-    
+
     describe "with invalid password" do
       let(:user_for_invalid_password) { found_user.authenticate("invalid") }
       it { should_not eq user_for_invalid_password }
       specify { expect(user_for_invalid_password).to be_false }
     end
   end
-  
+
   describe "remember token"do
     before { @user.save }
     its(:remember_token) {should_not be_blank}
@@ -141,8 +141,8 @@ describe User do
     end
     let!(:newer_micropost) do
       FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
-    end 
-    
+    end
+
 
     it "should have the right microposts in the right order" do
       expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
@@ -160,10 +160,21 @@ describe User do
       let!(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
+      let(:followed_user) { FactoryGirl.create(:user) }
+
+      before do
+        @user.follow!(followed_user)
+        3.times { followed_user.microposts.create!(content: "Lorem ipsum")}
+      end
 
       its(:feed) {should include(older_micropost)}
       its(:feed) {should include(newer_micropost)}
       its(:feed) {should_not include(unfollowed_post)}
+      its(:feed) do
+        followed_user.microposts.each do |micropost|
+          should include(micropost)
+        end
+      end
     end
   end
 
@@ -181,7 +192,7 @@ describe User do
       subject { other_user }
       its(:followers){should include @user}
     end
-   
+
     describe "and unfollowing" do
      before { @user.unfollow!(other_user)}
 
